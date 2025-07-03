@@ -26,14 +26,14 @@ public class CursoRepositoryIntegrationTest {
     
     @Autowired
     private UsuarioRepository usuarioRepository;
+    // usuario
+    Usuario creador = usuarioRepository.findById("12345678-9")
+    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
     
     @Test
     @Order(1)
     void crearCurso() {
 
-        // usuario
-        Usuario creador = usuarioRepository.findById("12345678-9")
-        .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         // curso
         Curso curso = new Curso(104L, "NodeJs", "JavaScript en el Backend", "EN PROCESO", creador);
@@ -46,7 +46,6 @@ public class CursoRepositoryIntegrationTest {
     @Test
     @Order(2)
     void actualizarCurso(){
-        //Buscando al usuario
         //Por si ecuentra el curso o no
         Optional<Curso> optionalCurso = cursoRepository.findById(104L);
         assertTrue(optionalCurso.isPresent(), "NodeJs");
