@@ -3,6 +3,7 @@ package com.prueba2.repository;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.MethodOrderer;
@@ -73,5 +74,28 @@ public class CursoRepositoryIntegrationTest {
         assertEquals("FrameWork del JS para el Backend", cursoActualizado.get().getDescripcion());
         assertEquals("EN PROCESO", cursoActualizado.get().getEstado());
         assertEquals(creador.getRut(), cursoActualizado.get().getCreador().getRut());
+    }
+
+    @Test
+    @Order(3)
+    void buscarCurso(){
+        Optional<Curso> cursoOptional = cursoRepository.findById(104L);
+        assertTrue(cursoOptional.isPresent());
+        assertEquals("ExpressJs", cursoOptional.get().getNombre_curso());
+    }
+
+    @Test
+    @Order(4)
+    void eliminarCurso(){
+        Optional<Curso> cursoOptional = cursoRepository.findById(104L);
+        assertTrue(cursoOptional.isPresent());
+        assertEquals("ExpressJs", cursoOptional.get().getNombre_curso());
+
+        //Si el producto existe lo eliminaremos
+        cursoRepository.deleteById(104L);
+
+        Optional<Curso> cursoEliminado = cursoRepository.findById(104L);
+        assertFalse(cursoEliminado.isPresent(), "El curso no fue eliminado");
+
     }
 }
