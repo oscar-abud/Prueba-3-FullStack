@@ -26,15 +26,19 @@ public class CursoRepositoryIntegrationTest {
     
     @Autowired
     private UsuarioRepository usuarioRepository;
+
     // usuario
-    Usuario creador = usuarioRepository.findById("12345678-9")
-    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+    private Usuario getCreador(){
+
+        return usuarioRepository.findById("12345678-9")
+        .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+    }
     
     @Test
     @Order(1)
     void crearCurso() {
-
-
+        //Usuario
+        Usuario creador = getCreador();
         // curso
         Curso curso = new Curso(104L, "NodeJs", "JavaScript en el Backend", "EN PROCESO", creador);
         Curso guardado = cursoRepository.save(curso);
@@ -46,12 +50,28 @@ public class CursoRepositoryIntegrationTest {
     @Test
     @Order(2)
     void actualizarCurso(){
+        //Usuario
+        Usuario creador = getCreador();
         //Por si ecuentra el curso o no
         Optional<Curso> optionalCurso = cursoRepository.findById(104L);
         assertTrue(optionalCurso.isPresent(), "NodeJs");
 
         Curso curso = optionalCurso.get();
         curso.setNombre_curso("ExpressJs");
+        curso.setDescripcion("FrameWork del JS para el Backend");
+        curso.setEstado("EN PROCESO");
+        curso.setCreador(creador);
 
+        //Guardando curso
+        cursoRepository.save(curso);
+
+        Optional<Curso> cursoActualizado = cursoRepository.findById(104L);
+        //Devuelve un true o false si el producto se actualizo o no
+        assertTrue(cursoActualizado.isPresent());
+        //Preguntamos si el nombre que le pasamos es igual al nombre del curso actualizado
+        assertEquals("ExpressJs", cursoActualizado.get().getNombre_curso());
+        assertEquals("FrameWork del JS para el Backend", cursoActualizado.get().getDescripcion());
+        assertEquals("EN PROCESO", cursoActualizado.get().getEstado());
+        assertEquals(creador, cursoActualizado.get().getCreador());
     }
 }
