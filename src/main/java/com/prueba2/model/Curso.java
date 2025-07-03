@@ -27,6 +27,7 @@ public class Curso {
     @ManyToOne
     @JoinColumn(name = "USUARIOS_id_usuario")
     private Usuario creador;
+    
 
     // Getters y Setters
     public Long getId_curso() {
