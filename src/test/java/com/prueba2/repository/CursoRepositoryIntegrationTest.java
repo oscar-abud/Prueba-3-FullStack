@@ -72,6 +72,6 @@ public class CursoRepositoryIntegrationTest {
         assertEquals("ExpressJs", cursoActualizado.get().getNombre_curso());
         assertEquals("FrameWork del JS para el Backend", cursoActualizado.get().getDescripcion());
         assertEquals("EN PROCESO", cursoActualizado.get().getEstado());
-        assertEquals(creador, cursoActualizado.get().getCreador());
+        assertEquals(creador.getRut(), cursoActualizado.get().getCreador().getRut());
     }
 }
