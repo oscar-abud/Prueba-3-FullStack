@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.MethodOrderer;
@@ -81,5 +82,19 @@ public class UsuarioRepositoryIntegrationTest {
         Optional<Usuario> usuarioOptional = usuarioRepository.findById("98765432-1");
         assertTrue(usuarioOptional.isPresent());
         assertEquals("Erwin", usuarioOptional.get().getNombre());
+    }
+
+    @Test
+    @Order(4)
+    void eliminarUsuario(){
+        Optional<Usuario> usuarioOptioanl = usuarioRepository.findById("98765432-1");
+
+        assertTrue(usuarioOptioanl.isPresent());
+        assertEquals("Erwin", usuarioOptioanl.get().getNombre());
+
+        usuarioRepository.deleteById("98765432-1");
+
+        Optional<Usuario> usuarioEliminado = usuarioRepository.findById("98765432-1");
+        assertFalse(usuarioEliminado.isPresent(), "El usuario no pudo ser eliminado");
     }
 }
