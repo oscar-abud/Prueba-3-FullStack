@@ -74,4 +74,12 @@ public class UsuarioRepositoryIntegrationTest {
         assertEquals("shinzusasageyo", usuarioActualizado.get().getContrasena());
         assertEquals(rol.getId_rol(), usuarioActualizado.get().getRol().getId_rol());
     }
+
+    @Test
+    @Order(3)
+    void buscarUsuario(){
+        Optional<Usuario> usuarioOptional = usuarioRepository.findById("98765432-1");
+        assertTrue(usuarioOptional.isPresent());
+        assertEquals("Erwin", usuarioOptional.get().getNombre());
+    }
 }
