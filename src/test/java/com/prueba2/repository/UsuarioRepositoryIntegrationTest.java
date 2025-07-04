@@ -1,9 +1,11 @@
 package com.prueba2.repository;
 
 import java.util.Date;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -49,6 +51,27 @@ public class UsuarioRepositoryIntegrationTest {
     @Test()
     @Order(2)
     void actualizarUsuario(){
-        
+        //Rol
+        Rol rol = getRol();
+        Optional<Usuario> usuarioOptional = usuarioRepository.findById("98765432-1");
+        assertTrue(usuarioOptional.isPresent(), "Naruto");
+
+        Usuario usuario = usuarioOptional.get();
+        usuario.setNombre("Erwin");
+        usuario.setApellido("Smith");
+        usuario.setMail("ermith@gmail.com");
+        usuario.setContrasena("shinzusasageyo");
+        usuario.setfechaRegistro(new Date());
+        usuario.setRol(rol);
+
+        usuarioRepository.save(usuario);
+
+        Optional<Usuario> usuarioActualizado = usuarioRepository.findById("98765432-1");
+
+        assertEquals("Erwin", usuarioActualizado.get().getNombre());
+        assertEquals("Smith", usuarioActualizado.get().getApellido());
+        assertEquals("ermith@gmail.com", usuarioActualizado.get().getMail());
+        assertEquals("shinzusasageyo", usuarioActualizado.get().getContrasena());
+        assertEquals(rol.getId_rol(), usuarioActualizado.get().getRol().getId_rol());
     }
 }
